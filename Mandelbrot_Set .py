@@ -1,7 +1,6 @@
-#マンデルブロ集合
 import matplotlib.pyplot as plt
+import matplotlib.cm as cm
 import numpy as npy
-from matplotlib.widgets import Slider
 
 #中心
 Real_Mid = 0
@@ -56,9 +55,13 @@ def man(c):
 for x in range(Bit_num):
     for y in range(Bit_num):
         c = (Left + Bit_len*x) + (Botom + Bit_len*y)*1.j
-        if Abso(man(c))<lim**2:
-            plt.axvspan(npy.real(c), npy.real(c) + Bit_len, y/Bit_num, (y+1)/Bit_num)
+        z = [0]
+        for i in range(1,repeat):
+            z.append((round(npy.real(fan(z[i-1])),Dig) + round(npy.imag(fan(z[i-1])),Dig)*1.j))
+            if Abso(z[i-1])>lim**2:
+                break
+        z_lim = len(z)
+        z_max = Abso(z[i-1])
+        plt.axvspan(npy.real(c), npy.real(c) + Bit_len, y/Bit_num, (y+1)/Bit_num, color=cm.jet(z_lim/Bit_num))
 
-slider_pos_Length = plt.axes([0.1, 0.01, 0.8, 0.03])
-threshold_slider = Slider(slider_pos_Length, 'Length', 0, 5, valinit=0)
 plt.show()
